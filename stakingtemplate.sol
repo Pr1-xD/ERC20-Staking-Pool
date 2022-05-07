@@ -905,9 +905,9 @@ contract CrocboyFarm is Ownable, ReentrancyGuard {
         IBEP20 _token,
         uint256 _startBlock,
         uint256 _tokenPerBlock
-    ) public {
+    )  {
         token = _token;
-        startBlock = _startBlock;
+        startBlock = block.number;
         tokenPerBlock = _tokenPerBlock;
         token.balanceOf( address(this) );
         devAddress = msg.sender;
@@ -957,6 +957,10 @@ contract CrocboyFarm is Ownable, ReentrancyGuard {
         poolInfo[_pid].depositFeeBP = _depositFeeBP;
         poolInfo[_pid].harvestInterval = _harvestInterval;
         poolInfo[_pid].withdrawLockPeriod = _withdrawLockPeriod;
+    }
+
+    function setAllocPoint(uint256 _pid,uint _allocPoint) external onlyOwner{
+        poolInfo[_pid].allocPoint = _allocPoint;
     }
 
     // Return reward multiplier over the given _from to _to block.
